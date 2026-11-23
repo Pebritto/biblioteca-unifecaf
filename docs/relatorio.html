@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Relatório — Biblioteca Digital UniFECAF</title>
+<style>
+@page{size:A4;margin:2cm}
+body{font-family:"Liberation Sans",Arial,sans-serif;font-size:11pt;line-height:1.5;color:#1b2733}
+h1{color:#0163aa;font-size:22pt;margin:0 0 4pt}
+h2{color:#0163aa;font-size:14pt;border-bottom:2px solid #1fae6b;padding-bottom:3pt;margin-top:20pt;break-after:avoid}
+h3{font-size:11.5pt;color:#00305a;margin:12pt 0 3pt;break-after:avoid}
+p{margin:0 0 7pt;text-align:justify}
+.sub{color:#555;margin-bottom:14pt}
+table{border-collapse:collapse;width:100%;margin:6pt 0 10pt;font-size:10pt}
+td,th{border:1px solid #b9c7d4;padding:4pt 6pt;text-align:left;vertical-align:top}
+th{background:#e8f2fa}
+.sw{display:inline-block;width:11pt;height:11pt;border:1px solid #888;vertical-align:middle;margin-right:4pt}
+figure{margin:8pt 0;text-align:center;break-inside:avoid}
+figure img{max-width:100%;border:1px solid #ccc}
+figcaption{font-size:9pt;color:#555;margin-top:3pt}
+.par{display:flex;gap:12pt;justify-content:center;align-items:flex-start}
+.pb{break-before:page}
+li{margin-bottom:3pt}
+</style></head><body>
+<h1>Biblioteca Digital UniFECAF</h1>
+<p class="sub">Relatório da Parte Teórica — Disciplina Design Web<br>Aluno: Pedro de Oliveira Britto · RA: 96029 · Curso: Ciência da Computação</p>
+
+<h2>1. Análise do problema e do protótipo</h2>
+<p>A UniFECAF precisa de sua primeira interface web para a biblioteca digital, antes de implementar funcionalidades completas. O desafio é transformar um protótipo de baixa fidelidade em um site visualmente organizado, responsivo e alinhado à identidade institucional, usando somente HTML e CSS.</p>
+<p>O protótipo é uma página única, de rolagem vertical, que define a hierarquia de conteúdo e deixa livres imagens, textos, tipografia e detalhes visuais. Ele contém: (1) barra de navegação com quatro itens (Biblioteca, Livros, Unidades, Contatos); (2) imagem de destaque (hero); (3) seção “Sobre a nossa biblioteca”, com dois blocos de texto, uma imagem central e uma fileira de quatro imagens; (4) faixa de imagem larga; (5) “Nossos livros”, com seis cartões (nome, imagem, descrição e botão “Saiba mais”) em duas linhas de três; (6) “As unidades”, com três blocos de imagem e texto; (7) “Contatos”, com texto e imagem; e (8) rodapé.</p>
+<figure><img src="prototipo.png" style="max-height:9cm"><figcaption>Figura 1 — Protótipo de baixa fidelidade fornecido pela instituição.</figcaption></figure>
+<p>A leitura do protótipo mostra um ritmo alternado de fundos (cinza-médio, claro, cinza-escuro, preto), que separa as seções, e o uso recorrente de cartões e de pares imagem + texto. Mantive essa estrutura e esse ritmo, trocando os cinzas por cores da identidade UniFECAF.</p>
+
+<h2>2. Público-alvo</h2>
+<p>O público principal é formado por estudantes de graduação e pós-graduação da UniFECAF, em sua maioria jovens e adultos que estudam em horários variados e acessam conteúdos pelo celular. Os públicos secundários são docentes, que indicam materiais, e candidatos ou visitantes que querem conhecer a estrutura da instituição.</p>
+<p>Daí decorrem os requisitos do projeto: navegação simples, com poucos itens e rótulos claros; leitura confortável em telas pequenas (<em>mobile first</em> na prática); carregamento leve (imagens vetoriais SVG); e contraste e foco visíveis, pois o uso é frequente e prolongado.</p>
+
+<h2>3. Paleta de cores e tipografia</h2>
+<p>A cor-base foi extraída do azul do logotipo e dos títulos do material da instituição (#0163AA); o verde vem dos detalhes em degradê dos cantos dos mesmos materiais.</p>
+<table><tr><th>Cor</th><th>Código</th><th>Uso</th></tr>
+<tr><td><span class="sw" style="background:#0163aa"></span>Azul UniFECAF</td><td>#0163AA</td><td>Fundo da seção de livros, botões e links</td></tr>
+<tr><td><span class="sw" style="background:#00305a"></span>Azul-marinho</td><td>#00305A</td><td>Menu, seção “Sobre”, títulos dos cartões, rodapé</td></tr>
+<tr><td><span class="sw" style="background:#0b7a46"></span>Verde</td><td>#0B7A46</td><td>Botão de chamada principal (texto branco, contraste ≈ 5,4:1)</td></tr>
+<tr><td><span class="sw" style="background:#1fae6b"></span>Verde-claro</td><td>#1FAE6B</td><td>Anel de foco, detalhes e ilustrações</td></tr>
+<tr><td><span class="sw" style="background:#eef5fb"></span>Azul-gelo</td><td>#EEF5FB</td><td>Fundo dos cartões</td></tr>
+<tr><td><span class="sw" style="background:#0e1a26"></span>Grafite azulado</td><td>#0E1A26</td><td>Fundo da seção “Unidades”</td></tr>
+<tr><td><span class="sw" style="background:#dfe9f2"></span>Cinza-azulado</td><td>#DFE9F2</td><td>Fundo de “Contatos”</td></tr></table>
+<p><b>Tipografia.</b> Os materiais da instituição usam uma sans-serif geométrica (família Poppins). O CSS declara a pilha <code>"Poppins", "Segoe UI", Roboto, Arial, sans-serif</code>: se Poppins estiver instalada, é usada; caso contrário, o navegador escolhe uma fonte do sistema, sem depender de serviços externos. O corpo usa 16 px com entrelinha de 1,65; os títulos de seção usam caixa-alta e espaçamento entre letras, como no protótipo; o título principal usa <code>clamp()</code> para escalar entre 1,9 e 3 rem.</p>
+
+<h2>4. Justificativa das principais decisões visuais</h2>
+<ul>
+<li><b>Fundos alternados</b> (marinho, azul, grafite, claro): mantêm o ritmo do protótipo e delimitam cada seção sem linhas extras.</li>
+<li><b>Cartões claros sobre fundo azul</b>: criam o maior contraste da página exatamente na seção que concentra o conteúdo principal (livros).</li>
+<li><b>Verde só na ação principal</b>: o botão “Explorar livros” é o único elemento verde de destaque; usar a cor com parcimônia o torna a ação mais visível.</li>
+<li><b>Ilustrações em SVG</b>: autorais, leves e escaláveis, nunca distorcem e evitam problemas de direitos de imagem. Em um site real seriam substituídas por fotografias da biblioteca e capas reais.</li>
+<li><b>Sobreposição escura sobre o hero</b>: garante legibilidade do título sobre a ilustração.</li>
+<li><b>Consistência</b>: raio de borda (12 px), sombras, botões e espaçamentos são definidos uma vez, em variáveis e classes reutilizáveis.</li>
+</ul>
+
+<h2>5. Estrutura das seções</h2>
+<p>O HTML usa elementos semânticos: <code>header</code> e <code>nav</code> (menu fixo no topo), <code>main</code> com uma <code>section</code> por bloco do protótipo, e <code>footer</code>. Cada seção tem um <code>h2</code> ligado por <code>aria-labelledby</code>, e há um único <code>h1</code>. Os livros são <code>article</code>, pois cada cartão faz sentido isolado; a galeria é uma lista (<code>ul</code>) de itens com imagem e legenda.</p>
+<table><tr><th>Seção</th><th>Protótipo</th><th>Implementação</th></tr>
+<tr><td>Menu</td><td>4 links</td><td>Barra fixa (<code>position: sticky</code>) com logotipo, links âncora e item atual destacado</td></tr>
+<tr><td>Hero</td><td>Imagem larga</td><td>Imagem de fundo + título, texto e botão</td></tr>
+<tr><td>Sobre</td><td>2 textos, 1 imagem, 4 imagens</td><td>Grade de 3 colunas e galeria de 4 itens (CSS Grid)</td></tr>
+<tr><td>Faixa</td><td>Imagem larga</td><td><code>div</code> com <code>background-image</code> decorativa</td></tr>
+<tr><td>Livros</td><td>6 cartões</td><td>Grade 3×2 com cartões em flexbox; botão alinhado ao fim</td></tr>
+<tr><td>Unidades</td><td>3 blocos</td><td>Grade imagem (5fr) + texto (7fr)</td></tr>
+<tr><td>Contatos</td><td>Texto + imagem</td><td>Grade 2fr/1fr; e-mail clicável</td></tr></table>
+<p><b>Organização dos arquivos:</b> <code>index.html</code> (estrutura), <code>css/style.css</code> (estilo, organizado em variáveis, base, componentes por seção e <em>media queries</em>) e <code>assets/imagens/</code> (18 SVGs).</p>
+
+<h2>6. Estratégias de responsividade</h2>
+<ul>
+<li><b>Meta viewport</b> e unidades relativas (<code>rem</code>, <code>%</code>, <code>fr</code>, <code>clamp()</code>).</li>
+<li><b>Contêiner fluido</b>: <code>width: min(1120px, 100% - 2rem)</code> limita a largura em telas grandes e mantém margem lateral em telas pequenas.</li>
+<li><b>Imagens flexíveis</b>: <code>max-width: 100%</code>, <code>aspect-ratio</code> e <code>object-fit</code> evitam distorção.</li>
+<li><b>Pontos de quebra</b>: até 900 px (tablet), livros em 2 colunas, galeria em 2 e bloco “Sobre” em 1 coluna; até 600 px (smartphone), tudo em 1 coluna, unidades e contatos empilhados, menu centralizado com quebra de linha e espaçamentos reduzidos.</li>
+<li><b>Menu</b>: usa <code>flex-wrap</code>, então os quatro links cabem sem barra de rolagem horizontal ou menu hambúrguer, que exigiria JavaScript.</li>
+</ul>
+<p>Foram conferidas as larguras de 1366 px e 390 px; em ambas não há rolagem horizontal, texto cortado ou elementos sobrepostos.</p>
+
+<h2>7. Acessibilidade</h2>
+<ul>
+<li><b>Contraste</b>: texto branco sobre #0163AA (≈ 6,1:1), #00305A (≈ 13:1) e sobre o verde #0B7A46 (≈ 5,4:1), todos acima de 4,5:1 (WCAG AA). Por isso o verde do botão foi escurecido.</li>
+<li><b>Texto alternativo</b>: imagens informativas têm <code>alt</code> descritivo; as decorativas têm <code>alt=""</code>.</li>
+<li><b>Teclado</b>: link “Ir para o conteúdo” no início; estilo <code>:focus-visible</code> com anel verde de 3 px; botões e links com área de toque confortável.</li>
+<li><b>Semântica</b>: marcos (<code>header</code>, <code>nav</code>, <code>main</code>, <code>footer</code>), hierarquia h1–h3, <code>lang="pt-BR"</code> e <code>aria-current</code> no item atual do menu.</li>
+<li><b>Botões “Saiba mais”</b>: cada um tem <code>aria-label</code> com o nome do livro, para que leitores de tela os diferenciem.</li>
+<li><b>Movimento</b>: <code>prefers-reduced-motion</code> desativa a rolagem suave e as transições.</li>
+</ul>
+
+<h2 class="pb">8. Respostas às questões orientadoras</h2>
+<h3>Como transformar um protótipo de baixa fidelidade em uma interface web moderna, responsiva e alinhada à identidade visual da UniFECAF?</h3>
+<p>Em etapas: (1) <b>interpretar</b> o protótipo, listando seções, hierarquia e padrões repetidos; (2) <b>estruturar</b> o conteúdo em HTML semântico, antes de qualquer estilo; (3) <b>definir o sistema visual</b> (cores extraídas da marca, tipografia, espaçamentos e componentes) em variáveis CSS; (4) <b>construir o layout</b> com Grid e Flexbox, seção por seção, na ordem do protótipo; (5) <b>adaptar</b> para telas menores com <em>media queries</em> e (6) <b>validar</b> contraste, teclado e renderização em duas larguras. O protótipo define o <em>que</em> e a <em>ordem</em>; a identidade define o <em>como</em> parece; e a responsividade garante que funcione em qualquer tela.</p>
+<h3>Por que usar HTML e CSS em arquivos separados?</h3>
+<p>Separar estrutura (HTML) de apresentação (CSS) facilita a manutenção: mudar uma cor ou um espaçamento exige editar um único ponto, e o mesmo CSS pode servir a várias páginas futuras da biblioteca. O navegador também guarda o CSS em cache, o que acelera o carregamento.</p>
+<h3>Como garantir que o layout não quebre em telas diferentes?</h3>
+<p>Evitando larguras fixas em pixels, usando grades flexíveis (<code>fr</code>, <code>minmax</code>), imagens com largura máxima de 100% e pontos de quebra baseados no conteúdo, e testando em larguras extremas (desktop e smartphone).</p>
+<h3>Como as cores influenciam a legibilidade e a identidade?</h3>
+<p>Cores da marca criam reconhecimento imediato; contraste suficiente entre texto e fundo garante leitura por todos, inclusive pessoas com baixa visão. Por isso as cores da marca foram aplicadas por função (fundo, ação, destaque) e verificadas contra o contraste mínimo, e não escolhidas por gosto.</p>
+
+<h2 class="pb">9. Capturas da interface</h2>
+<div class="par">
+<figure style="flex:1.7"><img src="captura-desktop.png"><figcaption>Figura 2 — Versão desktop (1366 px).</figcaption></figure>
+<figure style="flex:.55"><img src="captura-mobile.png"><figcaption>Figura 3 — Versão mobile (390 px).</figcaption></figure>
+</div>
+
+<h2>10. Conclusão e aprendizados</h2>
+<p>O principal desafio foi manter a fidelidade à estrutura do protótipo sem perder flexibilidade: pares como imagem + texto e grades de cartões precisaram de regras específicas por largura de tela. Os aprendizados foram a importância do HTML semântico como base para acessibilidade, o uso de variáveis CSS para manter consistência, e a verificação de contraste como critério objetivo para escolher cores.</p>
+<p style="font-size:9.5pt"><b>Links:</b> site publicado: ____________________ · repositório: ____________________ · vídeo: ____________________</p>
+</body></html>
